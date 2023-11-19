@@ -14,7 +14,6 @@ let descrip = '';
 // Listen for stdout data from the Python process
 pythonProcess.stdout.on('data', (data) => {
     descrip = data.toString(); // Convert data to string and store it in 'descrip'
-    console.log(descrip); // Move the console.log inside the event handler
     var googleBooks = require('google-books-search');
     googleBooks.search(descrip, function(error, results) {
         if ( ! error ) {
@@ -27,8 +26,8 @@ pythonProcess.stdout.on('data', (data) => {
 });
 
 
-// Listen for the Python process to exit
+/* // Listen for the Python process to exit
 pythonProcess.on('close', (code) => {
     console.log(`Python process exited with code ${code}`);
-});
+}); */
 
