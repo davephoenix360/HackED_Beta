@@ -1,8 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import sys
 
-url = "https://calendar.ualberta.ca/search_advanced.php?cur_cat_oid=39&search_database=Search&search_db=Search&cpage=1&ecpage=1&ppage=1&spage=1&tpage=1&location=33&filter%5Bkeyword%5D=ECE+210&filter%5Bexact_match%5D=1"
+course_code = (sys.argv[1]).split()
+f_c_code = "+".join(course_code)
+
+url = "https://calendar.ualberta.ca/search_advanced.php?cur_cat_oid=39&search_database=Search&search_db=Search&cpage=1&ecpage=1&ppage=1&spage=1&tpage=1&location=33&filter%5Bkeyword%5D="+ f_c_code +"&filter%5Bexact_match%5D=1"
 """ driver = webdriver.Edge()
 driver.get(url) """
 
@@ -12,11 +16,11 @@ source_text = str(response.content)
 
 showCourse_index = source_text.find("showCourse")
 endOfShowCourse = source_text.find(")", showCourse_index)
-print(source_text[showCourse_index:endOfShowCourse])
+
 showCourse_code = source_text[showCourse_index:endOfShowCourse]
 catoid = showCourse_code[13:15]
 coid = showCourse_code[21:27]
-print(catoid, coid)
+
 
 course_url = "https://calendar.ualberta.ca/preview_course_nopop.php?catoid=" + catoid + "&coid=" + coid
 course_driver = requests.get(course_url)
@@ -28,4 +32,3 @@ endOfDescrip = course_driver_content.find("</p>", descrip_index)
 course_description = course_driver_content[descrip_index:endOfDescrip]
 
 print(course_description)
-
